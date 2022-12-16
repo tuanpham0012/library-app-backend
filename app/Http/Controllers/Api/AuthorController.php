@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\BaseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthorRequest;
 use App\Http\Resources\AuthorResource;
@@ -35,8 +36,14 @@ class AuthorController extends BaseApiController
      */
     public function store(AuthorRequest $request)
     {
-        $this->model->create($request->all());
-        return response()->json(['message' => 'Thêm mới thành công!'], 200);
+        $data = $this->model->formatData($request->all());
+        try {
+            $this->model->create($data);
+            return response()->json(['message' => 'Thêm mới thành công!'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 422);
+        }
+        
     }
 
     /**
@@ -84,5 +91,15 @@ class AuthorController extends BaseApiController
     public function destroy($id)
     {
         //
+    }
+
+    public function saveImage(Request $request)
+    {
+        if($request->hasFile('image')){
+            $save = BaseHelper::saveImage($request->file('image'), 'images');
+            if($save){
+                return response()->json(['update success'], 200);
+            }
+        }
     }
 }
