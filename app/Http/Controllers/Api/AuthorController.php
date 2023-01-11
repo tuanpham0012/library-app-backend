@@ -22,7 +22,7 @@ class AuthorController extends BaseApiController
      */
     public function index()
     {
-        $entries = $this->model->paginate(20);
+        $entries = $this->model->latest()->paginate(40);
         $data = AuthorResource::collection($entries);
         //dd($entries);
         return $this->responseCollection($data);
@@ -43,7 +43,7 @@ class AuthorController extends BaseApiController
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 422);
         }
-        
+
     }
 
     /**
