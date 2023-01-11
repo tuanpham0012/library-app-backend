@@ -101,5 +101,6 @@ class AuthorController extends BaseApiController
                 return response()->json(['update success'], 200);
             }
         }
+        return response()->json(['message' => 'upload image error' ], 422);
     }
 }

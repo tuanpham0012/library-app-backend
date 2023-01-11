@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group(['prefix' => 'v1', 'as' => 'v1.'], function () {
-    Route::post('/authors/update_image', [AuthorController::class, 'saveImage']);
+    Route::post('/authors/upload_image', [AuthorController::class, 'saveImage']);
     Route::resource('/authors', AuthorController::class );
     Route::get('/countries', [CountryController::class, 'index']);
 });
